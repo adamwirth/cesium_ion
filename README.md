@@ -8,13 +8,14 @@ This is a simple skeleton project to help you get up and running quickly. It is 
 
 This project requires a PostgreSQL database. If you do not have PostgreSQL installed, you can run start one via [Docker](https://hub.docker.com/_/postgres):
 
-```
+```sh
 docker run --rm -p 5432:5432 -e POSTGRES_PASSWORD=pg_password -d postgres
 ```
 
 ### Database Connection
 
-If you are using the above Docker command, no further action is needed on your part. If you are using your own database instances, modify `connectionString.js` to point to it before proceeding.
+If you are using the above Docker command, no further action is needed on your part. 
+If you are using your own database instances, modify `connectionString.js` to point to it before proceeding.
 
 ### Important third party libraries
 
