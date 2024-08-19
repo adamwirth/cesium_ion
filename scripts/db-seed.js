@@ -1,27 +1,35 @@
-const knex = require("knex");
-const { randomUUID } = require("crypto");
-const connectionString = require("../connectionString");
+import { randomUUID } from 'crypto';
+import {
+  createPool, sql
+} from 'slonik';
 
-const client = knex({
-  client: "pg",
-  connection: connectionString,
-});
+import connectionString from '../connectionString.js';
 
-async function main() {
-  //Delete all existing sites and create some dummy sites.
-  await client("construction_sites").delete();
+// const construction_sites = z.object({
+//   id: z.number(),
+//   name: z.string(),
+// });
+
+const pool = await createPool(connectionString);
+
+const main = async () => {
+  // Delete all existing sites and create some dummy sites.
+  // todo add zod types
+  await pool.query(sql.unsafe`
+    DELETE FROM construction_sites returning *;
+  `);
+  // todo could do as 1 transaction instead of 10 inserts in a loop now
   for (let i = 0; i < 10; i++) {
-    const project = await client("construction_sites")
-      .insert({
-        id: randomUUID(),
-      })
-      .returning("*");
+    
+    const project = await pool.query(
+      sql.unsafe`
+    INSERT INTO construction_sites (id) VALUES (${randomUUID()})
+    `)
+
     console.log(`Created construction site with id ${project[0].id}`);
   }
+
+  await pool.end();
 }
 
-main()
-  .catch((err) => {
-    console.log(err);
-  })
-  .finally(() => client.destroy());
+main();

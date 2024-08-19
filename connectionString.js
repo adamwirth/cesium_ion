@@ -1,1 +1,1 @@
-module.exports = "pg://postgres:pg_password@localhost:5432/postgres";
+export default "pg://postgres:pg_password@localhost:5432/postgres";
