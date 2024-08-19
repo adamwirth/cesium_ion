@@ -6,15 +6,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "db-migrate": "node scripts/db-migrate.js",
     "migrate": "cross-env DATABASE_URL=postgres://postgres:pg_password@localhost:5432/postgres node-pg-migrate",
-    "db-rollback": "node scripts/db-rollback.js",
+    "db-migrate": "npm run migrate -- up",
+    "db-rollback": "npm run migrate -- down",
+    "db-create-migration": "npm run migrate -- create",
     "db-seed": "node scripts/db-seed.js",
     "start": "node server.js",
     "test": "jasmine"
   },
   "dependencies": {
-    "knex": "^3.1.0",
     "pg": "^8.5.1",
     "restify": "^11.1.0",
     "slonik": "^46.0.1",
