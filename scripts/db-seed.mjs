@@ -5,10 +5,12 @@ import {
 
 import connectionString from '../connectionString.js';
 
+/* TODO Would like to add "zod types" like this
 // const construction_sites = z.object({
 //   id: z.number(),
 //   name: z.string(),
 // });
+*/
 
 const pool = await createPool(connectionString);
 
@@ -25,8 +27,6 @@ const main = async () => {
       sql.unsafe`
     INSERT INTO construction_sites (id) VALUES (${randomUUID()})
     `)
-
-    // todo logging with slonik -- "Created construction site with id command,INSERT,fields,,notices,,rowCount,1,rows,,type,QueryResult" isnt good
     console.log(`Created construction site with id ${Object.entries(project)}`);
   }
 

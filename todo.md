@@ -1,4 +1,4 @@
-# TODO
+# TODO main
 
 File to encapsulate bigger ideas than the time scope or expand on existing changes.
 
@@ -11,13 +11,13 @@ File to encapsulate bigger ideas than the time scope or expand on existing chang
 
 - Is the security hashing "quantum safe"?
 - Best way to store env variables. Currently isn't "real" so I am reusing the postgresql string willy-nilly
-- Best way to have UUIDs generated, ideally deferred to postgres and not done over here
+- Best way to have UUIDs generated, ideally deferred to postgres and not done over here. Struggling with my postgres extensions
 
 ## Future Proofing and futurizing
 
 - Typescript
   - I feel weird about adding typescript. Research shows it catches bugs, but also in my experience, it can take up a lot of developer time.
-    I think its the way the ecosystem is going to continue to go, and it can be valuable, but probably not for this half-day project.
+    I think it's the way the ecosystem is going to continue to go, and it can be valuable, but probably not for this half-day project.
     Looking at Node.js' EoL timeline and trying to future-proof, does feel like Typescript is worth pursuing...
 - import instead of require/export
 

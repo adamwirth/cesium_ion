@@ -12,6 +12,29 @@ This project requires a PostgreSQL database. If you do not have PostgreSQL insta
 docker run --rm -p 5432:5432 -e POSTGRES_PASSWORD=pg_password -d postgres
 ```
 
+You will need to be able to generate uuids on there, which may be active by default.
+If not, and you are getting 'id is undefined' when querying, 
+
+try entering the container 
+
+```sh
+docker ps
+...
+docker exec -it <name> bash
+```
+
+and entering
+
+```sh
+psql -U postgres
+```
+
+Finally,
+
+```sh
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+```
+
 ### Database Connection
 
 If you are using the above Docker command, no further action is needed on your part.
