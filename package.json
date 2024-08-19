@@ -2,7 +2,7 @@
   "name": "cesium-project",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server.cjs",
   "type": "module",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
     "db-rollback": "npm run migrate -- down",
     "db-create-migration": "npm run migrate -- create",
     "db-seed": "node scripts/db-seed.js",
-    "start": "node server.js",
+    "start": "node server.cjs",
     "test": "jasmine"
   },
   "dependencies": {

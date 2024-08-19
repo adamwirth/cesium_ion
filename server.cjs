@@ -1,12 +1,4 @@
-const knex = require("knex");
 const restify = require("restify");
-
-const connectionString = require("./connectionString");
-
-const client = knex({
-  client: "pg",
-  connection: connectionString,
-});
 
 const server = restify.createServer();
 server.pre(restify.pre.sanitizePath());
@@ -20,7 +12,7 @@ function shutdown() {
   }
   shuttingDown = true;
 
-  const shutdownTimeout = setTimeout(function () {
+  const shutdownTimeout = setTimeout(function() {
     console.log("Shutdown failed, terminating process.");
     process.exit(0);
   }, 5000);

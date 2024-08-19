@@ -16,7 +16,7 @@ const main = async () => {
   // Delete all existing sites and create some dummy sites.
   // todo add zod types
   await pool.query(sql.unsafe`
-    DELETE FROM construction_sites returning *;
+    DELETE FROM construction_sites;
   `);
   // todo could do as 1 transaction instead of 10 inserts in a loop now
   for (let i = 0; i < 10; i++) {
