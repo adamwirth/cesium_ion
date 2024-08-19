@@ -26,7 +26,8 @@ const main = async () => {
     INSERT INTO construction_sites (id) VALUES (${randomUUID()})
     `)
 
-    console.log(`Created construction site with id ${project[0].id}`);
+    // todo logging with slonik -- "Created construction site with id command,INSERT,fields,,notices,,rowCount,1,rows,,type,QueryResult" isnt good
+    console.log(`Created construction site with id ${Object.entries(project)}`);
   }
 
   await pool.end();
