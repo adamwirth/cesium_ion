@@ -19,11 +19,11 @@ exports.up = (pgm) => {
         volume: { type: 'integer', allowNull: false },
         cost: { type: 'float', allowNull: false },
         color: { type: 'string', comment: 'hex code' },
-        deliveryDate: {
+        delivery_date: {
             type: 'timestamp',
             allowNull: true,
         },
-        createdAt: {
+        created_at: {
             type: 'timestamp',
             notNull: true,
             default: pgm.func('current_timestamp'),

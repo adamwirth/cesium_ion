@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { server } = require('../../server.js');
+const createServer = require('../../server.js');
 
 
 describe('Construction Sites API', () => {
@@ -7,8 +7,8 @@ describe('Construction Sites API', () => {
   let testServer;
 
   beforeAll((done) => {
-    server.close();  // Close out server if it is in use... maybe server.js shouldn't listen
-    testServer = server.listen(TEST_PORT, () => done());
+    testServer = createServer(TEST_PORT);
+    return done();
   });
 
   afterAll((done) => {
@@ -24,7 +24,7 @@ describe('Construction Sites API', () => {
           volume: 100,
           cost: 5000,
           color: '#FF0000',
-          deliveryDate: '2024-08-01T00:00:00Z'
+          delivery_date: '2024-08-01T00:00:00Z'
         });
 
       expect(response.status).toBe(201);
@@ -52,7 +52,7 @@ describe('Construction Sites API', () => {
           volume: 50,
           cost: 2500,
           color: '#00FF00',
-          deliveryDate: '2024-08-01T00:00:00Z'
+          delivery_date: '2024-08-01T00:00:00Z'
         });
 
       const siteId = createResponse.body.id;
@@ -81,7 +81,7 @@ describe('Construction Sites API', () => {
           volume: 70,
           cost: 3000,
           color: '#0000FF',
-          deliveryDate: '2024-08-03T00:00:01Z'
+          delivery_date: '2024-08-03T00:00:01Z'
         });
 
       const siteId = createResponse.body.id;
@@ -94,7 +94,7 @@ describe('Construction Sites API', () => {
           volume: 75,
           cost: 3200,
           color: '#FF00FF',
-          deliveryDate: '2024-09-23T00:00:00Z'
+          delivery_date: '2024-09-23T00:00:00Z'
         });
 
       expect(updateResponse.status).toBe(200);
@@ -111,7 +111,7 @@ describe('Construction Sites API', () => {
           volume: 80,
           cost: 4004,
           color: '#FFFF00',
-          deliveryDate: '2024-08-19T00:00:00Z'
+          delivery_date: '2024-08-19T00:00:00Z'
         });
 
       const siteId = createResponse.body.id;

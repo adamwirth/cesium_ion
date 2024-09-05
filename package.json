@@ -1,8 +1,8 @@
 {
   "name": "cesium-project",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "server.cjs",
+  "main": "main.js",
   "private": true,
   "scripts": {
     "migrate": "cross-env DATABASE_URL=postgres://postgres:pg_password@localhost:5432/postgres node-pg-migrate",
@@ -10,13 +10,13 @@
     "db-rollback": "npm run migrate -- down",
     "db-create-migration": "npm run migrate -- create",
     "db-seed": "node scripts/db-seed.mjs",
-    "start": "node server.js",
+    "start": "node main.js",
     "test": "jasmine"
   },
   "dependencies": {
     "pg": "^8.5.1",
     "restify": "^11.1.0",
-    "slonik": "^46.0.1",
+    "slonik": "^46.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
