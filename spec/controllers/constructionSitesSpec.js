@@ -18,7 +18,7 @@ describe('Construction Sites API', () => {
   });
   
   /**
-   * Valid UUID expectations
+   * Valid UUID expectations.
    * @param {string} uuid 
    * @returns {bool}
    */
@@ -26,6 +26,36 @@ describe('Construction Sites API', () => {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     return uuidRegex.test(uuid);
   };
+  
+  /**
+ * Generates a random UUID that is not already present in the construction-sites database.
+ * Will try up to 10 times and print a warning if no unused UUID is found.
+ * @param {Object} server - The test server instance.
+ * @returns {Promise<string>} - A promise that resolves to a random unused UUID.
+ */
+const getRandomUnusedId = async (server) => {
+  // First, check if anything is in the database
+  let response = await request(server).get('/construction-sites');
+
+  expect(response.status).toBe(200);
+  expect(Array.isArray(response.body)).toBe(true);
+
+  let randomUnusedId = randomUUID();
+  let attempts = 0;
+
+  // Try to find an unused UUID up to 10 times
+  while (response.body.some(site => site.id === randomUnusedId)) {
+    randomUnusedId = randomUUID();
+    attempts += 1;
+    
+    if (attempts >= 10) {
+      console.warn('Warning: Could not find an unused UUID after 10 attempts. Something is probably wrong.');
+      break;
+    }
+  }
+
+  return randomUnusedId;
+};
 
   describe('POST /construction-sites', () => {
     it('should create a new construction site with a valid UUID', async () => {
@@ -60,7 +90,6 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
-          id: randomUUID(),
           name: 'Single Site',
           volume: 50,
           cost: 2500,
@@ -78,10 +107,10 @@ describe('Construction Sites API', () => {
       expect(response.body.name).toBe('Single Site');
     });
 
-    it('should return 404 for an impossible/invalid ID', async () => {
+    it('should return 500 for an impossible/invalid ID', async () => {
       const response = await request(testServer).get('/construction-sites/impossible-id-string');
 
-      expect(response.status).toBe(404);
+      expect(response.status).toBe(500);
     });
   });
 
@@ -90,7 +119,6 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
-          id: randomUUID(),
           name: 'Update Site',
           volume: 70,
           cost: 3000,
@@ -121,7 +149,6 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
-          id: randomUUID(),
           name: 'Delete Site',
           volume: 80,
           cost: 4004,
@@ -138,10 +165,18 @@ describe('Construction Sites API', () => {
       expect(deleteResponse.body).toEqual({ message: 'Construction site deleted.' });
     });
 
-    it('should return 404 for an impossible/invalid ID', async () => {
-      const response = await request(testServer).delete('/construction-sites/impossible-id-string');
+    it('should return 404 for a valid, unused ID', async () => {
+      const randomUnusedId = await getRandomUnusedId(testServer);
+      
+      const response = await request(testServer).delete(`/construction-sites/${randomUnusedId}`);
 
       expect(response.status).toBe(404);
+    });
+    
+    it('should return 500 for an impossible/invalid UUID format', async () => {
+      const response = await request(testServer).delete('/construction-sites/impossible-id-string');
+
+      expect(response.status).toBe(500);
     });
   });
 });

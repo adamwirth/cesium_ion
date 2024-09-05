@@ -51,7 +51,6 @@ function createServer(port) {
       );
       res.send(200, result.rows);
     } catch (err) {
-      console.error("hello from get construction sites", err, err.message);
       res.send(500, { error: 'Failed to retrieve construction sites.', details: err.message });
     }
   });
@@ -62,7 +61,7 @@ function createServer(port) {
       const { id } = req.params;
       const pool = await getPool();
       const result = await pool.query(
-        sql`
+        sql.unsafe`
         SELECT * FROM construction_sites WHERE id = ${id};
       `
       );
@@ -117,7 +116,6 @@ function createServer(port) {
         res.send(200, { message: 'Construction site deleted.' });
       }
     } catch (err) {
-      console.error("delete err", err);
       res.send(500, { error: 'Failed to delete construction site.', details: err.message });
     }
   });

@@ -47,3 +47,11 @@ File to encapsulate bigger ideas than the time scope or expand on existing chang
 ## Logging
 
 - Not sure what logger we want to use, can just use console.log for now and assume we have some third-party ($$$) that'll pick those up
+
+## "Consultant input"
+
+- My friend J works in this domain, with construction materials.
+  They sent me a bunch of nice texts about a wishlist if they had a new database for their systems at work.
+  I could add this in as a fun little document or even refactor existing code.
+  Staying with the design spec supplied for now; maybe once I run out of fun things to do.
+
