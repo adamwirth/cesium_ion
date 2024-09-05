@@ -34,11 +34,9 @@ function createServer(port) {
         RETURNING *;
       `
       );
-      console.debug( { result });
       res.send(201, result.rows[0]);
     } catch (err) {
       res.send(500, { error: 'Failed to create construction site.', details: err.message });
-      console.error("hello", err, err.message);
     }
   });
 
@@ -53,6 +51,7 @@ function createServer(port) {
       );
       res.send(200, result.rows);
     } catch (err) {
+      console.error("hello from get construction sites", err, err.message);
       res.send(500, { error: 'Failed to retrieve construction sites.', details: err.message });
     }
   });

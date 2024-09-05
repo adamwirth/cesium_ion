@@ -1,3 +1,4 @@
+const { randomUUID } = require('crypto');
 const request = require('supertest');
 const createServer = require('../../server.js');
 
@@ -5,6 +6,7 @@ const createServer = require('../../server.js');
 describe('Construction Sites API', () => {
   const TEST_PORT = 8081;
   let testServer;
+  
 
   beforeAll((done) => {
     testServer = createServer(TEST_PORT);
@@ -14,9 +16,19 @@ describe('Construction Sites API', () => {
   afterAll((done) => {
     testServer.close(done);
   });
+  
+  /**
+   * Valid UUID expectations
+   * @param {string} uuid 
+   * @returns {bool}
+   */
+  const isValidUUID = (uuid) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
+  };
 
   describe('POST /construction-sites', () => {
-    it('should create a new construction site', async () => {
+    it('should create a new construction site with a valid UUID', async () => {
       const response = await request(testServer)
         .post('/construction-sites')
         .send({
@@ -28,7 +40,7 @@ describe('Construction Sites API', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
+      expect(isValidUUID(response.body.id)).toBe(true);
       expect(response.body.name).toBe('Test Site');
     });
   });
@@ -48,6 +60,7 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
+          id: randomUUID(),
           name: 'Single Site',
           volume: 50,
           cost: 2500,
@@ -77,6 +90,7 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
+          id: randomUUID(),
           name: 'Update Site',
           volume: 70,
           cost: 3000,
@@ -107,6 +121,7 @@ describe('Construction Sites API', () => {
       const createResponse = await request(testServer)
         .post('/construction-sites')
         .send({
+          id: randomUUID(),
           name: 'Delete Site',
           volume: 80,
           cost: 4004,
